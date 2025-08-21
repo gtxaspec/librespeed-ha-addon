@@ -4,7 +4,7 @@ Self-hosted speed test server powered by LibreSpeed Rust backend.
 
 ## About
 
-This add-on runs a LibreSpeed server on your Home Assistant instance, allowing you to test your network speed from any device on your local network. It's based on the [speedtest-rust](https://github.com/librespeed/speedtest-rust) project, providing a lightweight, fast, and accurate speed testing solution.
+This add-on runs a LibreSpeed server on your Home Assistant instance, allowing you to test your network speed from any device on your local network or remotely through Home Assistant's ingress feature. It's based on the [speedtest-rust](https://github.com/librespeed/speedtest-rust) project, providing a lightweight, fast, and accurate speed testing solution. All settings are fully configurable through the Home Assistant UI - no manual file editing required.
 
 ## Features
 
@@ -15,7 +15,7 @@ This add-on runs a LibreSpeed server on your Home Assistant instance, allowing y
 - IP address and ISP information display
 - Optional telemetry and results storage
 - Multi-architecture support (amd64, aarch64)
-- **Full IPv6 priority** - Always prefers IPv6 (the future!)
+- **Full IPv6 priority** - Always prefers IPv6
 
 ## Installation
 
