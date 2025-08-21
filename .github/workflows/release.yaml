@@ -31,25 +31,6 @@ jobs:
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
           echo "tag=v${VERSION}" >> $GITHUB_OUTPUT
 
-      - name: Update version in config.yaml
-        run: |
-          sed -i "s/^version: .*/version: \"${{ steps.version.outputs.version }}\"/" librespeed/config.yaml
-          
-      - name: Commit version change
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add librespeed/config.yaml
-          git commit -m "Bump version to ${{ steps.version.outputs.version }}" || echo "No changes to commit"
-          git push
-
-      - name: Update CHANGELOG
-        run: |
-          DATE=$(date +%Y-%m-%d)
-          sed -i "2i\\\n## ${{ steps.version.outputs.version }} - ${DATE}\n- Release version ${{ steps.version.outputs.version }}" CHANGELOG.md
-          git add CHANGELOG.md
-          git commit -m "Update CHANGELOG for ${{ steps.version.outputs.version }}" || echo "No changes to commit"
-          git push
 
       - name: Create Release
         uses: actions/create-release@v1
@@ -85,8 +66,6 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-        with:
-          ref: master  # Get the latest with version bump
 
       - name: Get information
         id: info
@@ -122,5 +101,4 @@ jobs:
             --target /data/librespeed \
             --image "${{ steps.check.outputs.image }}" \
             --docker-hub "ghcr.io/${{ github.repository_owner }}" \
-            --addon \
-            --version "${{ needs.create-release.outputs.version }}"
+            --addon
