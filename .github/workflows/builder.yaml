@@ -1,11 +1,14 @@
 name: Builder
 
 env:
-  BUILD_ARGS: "--test"
   MONITORED_FILES: "build.yaml config.yaml Dockerfile rootfs"
 
 on:
   workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   init:
@@ -99,9 +102,11 @@ jobs:
           if [[ "${{ steps.info.outputs.architectures }}" =~ ${{ matrix.arch }} ]]; then
              echo "build_arch=true" >> $GITHUB_OUTPUT
              echo "image=$(echo ${{ steps.info.outputs.image }} | cut -d'/' -f3)" >> $GITHUB_OUTPUT
-             # Push images on push to master or manual workflow_dispatch
-             if [[ -z "${{ github.head_ref }}" ]] && [[ "${{ github.event_name }}" == "push" || "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+             # Push images on workflow_dispatch (no --test flag)
+             if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
                  echo "BUILD_ARGS=" >> $GITHUB_ENV
+             else
+                 echo "BUILD_ARGS=--test" >> $GITHUB_ENV
              fi
            else
              echo "${{ matrix.arch }} is not a valid arch for ${{ matrix.addon }}, skipping build"
