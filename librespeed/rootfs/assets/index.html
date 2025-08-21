@@ -15,6 +15,19 @@ let SPEEDTEST_SERVERS = get_servers();
 let s = new Speedtest(); //create speedtest object
 s.setParameter("telemetry_level","basic"); //enable telemetry
 
+// Handle ingress path for telemetry URL
+const pathname = window.location.pathname;
+const isIngress = pathname.includes('/api/hassio_ingress/');
+if (isIngress) {
+    // For ingress, we need to override ALL the backend URLs to include the ingress path
+    const ingressPath = pathname.substring(0, pathname.lastIndexOf('/') + 1);
+    s.setParameter("url_dl", ingressPath + "backend/garbage");
+    s.setParameter("url_ul", ingressPath + "backend/empty");
+    s.setParameter("url_ping", ingressPath + "backend/empty");
+    s.setParameter("url_getIp", ingressPath + "backend/getIP");
+    s.setParameter("url_telemetry", ingressPath + "backend/results/telemetry");
+}
+
 //SERVER AUTO SELECTION
 function initServers(){
 	const noServersAvailable = function () {
@@ -129,7 +142,20 @@ function startStop(){
                 try{
 					const testId = uiData.testId;
 					if(testId!=null){
-						const shareURL = window.location.href.substring(0, window.location.href.lastIndexOf("/")) + "/backend/results/?id=" + testId;
+						// Handle ingress path correctly for result images
+						const pathname = window.location.pathname;
+						const isIngress = pathname.includes('/api/hassio_ingress/');
+						let shareURL;
+						
+						if (isIngress) {
+							// For ingress, include the full ingress path
+							const ingressPath = pathname.substring(0, pathname.lastIndexOf('/') + 1);
+							shareURL = window.location.origin + ingressPath + "backend/results/?id=" + testId;
+						} else {
+							// For direct access, use the standard URL construction
+							shareURL = window.location.href.substring(0, window.location.href.lastIndexOf("/")) + "/backend/results/?id=" + testId;
+						}
+						
 						I("resultsImg").src=shareURL;
                         I("resultsURL").value=shareURL;
                         I("testId").innerHTML=testId;
