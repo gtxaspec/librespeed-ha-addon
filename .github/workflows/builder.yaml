@@ -26,6 +26,7 @@ jobs:
 
       - name: Get changed files
         id: changed_files
+        if: github.event_name == 'pull_request'
         uses: jitterbit/get-changed-files@v1
 
       - name: Find add-on directories
@@ -36,17 +37,26 @@ jobs:
         id: changed_addons
         run: |
           declare -a changed_addons
-          for addon in ${{ steps.addons.outputs.addons }}; do
-            if [[ "${{ steps.changed_files.outputs.all }}" =~ $addon ]]; then
-              for file in ${{ env.MONITORED_FILES }}; do
-                  if [[ "${{ steps.changed_files.outputs.all }}" =~ $addon/$file ]]; then
-                    if [[ ! "${changed_addons[@]}" =~ $addon ]]; then
-                      changed_addons+=("\"${addon}\"")
+          
+          # For workflow_dispatch or first push, build all addons
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]] || [[ -z "${{ steps.changed_files.outputs.all }}" ]]; then
+            for addon in ${{ steps.addons.outputs.addons }}; do
+              changed_addons+=("\"${addon}\"")
+            done
+          else
+            # Check for changes in monitored files
+            for addon in ${{ steps.addons.outputs.addons }}; do
+              if [[ "${{ steps.changed_files.outputs.all }}" =~ $addon ]]; then
+                for file in ${{ env.MONITORED_FILES }}; do
+                    if [[ "${{ steps.changed_files.outputs.all }}" =~ $addon/$file ]]; then
+                      if [[ ! "${changed_addons[@]}" =~ $addon ]]; then
+                        changed_addons+=("\"${addon}\"")
+                      fi
                     fi
-                  fi
-              done
-            fi
-          done
+                done
+              fi
+            done
+          fi
 
           changed=$(echo ${changed_addons[@]} | rev | cut -c 2- | rev)
 
