@@ -1,0 +1,78 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  init:
+    runs-on: ubuntu-latest
+    name: Initialize builds
+    outputs:
+      addons: ${{ steps.addons.outputs.addons_list }}
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Find add-ons
+        id: addons
+        uses: home-assistant/actions/helpers/find-addons@master
+
+  build:
+    needs: init
+    runs-on: ubuntu-latest
+    name: Build ${{ matrix.arch }} ${{ matrix.addon }} add-on
+    strategy:
+      matrix:
+        addon: ${{ fromJson(needs.init.outputs.addons) }}
+        arch: ["aarch64", "amd64"]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Get information
+        id: info
+        uses: home-assistant/actions/helpers/info@master
+        with:
+          path: "./${{ matrix.addon }}"
+
+      - name: Check if add-on should be built
+        id: check
+        run: |
+          if [[ "${{ steps.info.outputs.architectures }}" =~ ${{ matrix.arch }} ]]; then
+             echo "build_arch=true" >> $GITHUB_OUTPUT
+             echo "image=$(echo ${{ steps.info.outputs.image }} | cut -d'/' -f3)" >> $GITHUB_OUTPUT
+           else
+             echo "${{ matrix.arch }} is not a valid arch for ${{ matrix.addon }}, skipping build"
+             echo "build_arch=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Set build arguments
+        if: steps.check.outputs.build_arch == 'true'
+        run: |
+          if [[ -z "${{ github.head_ref }}" ]] && [[ "${{ github.event_name }}" == "release" ]]; then
+            echo "BUILD_ARGS=--version ${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+          else
+            echo "BUILD_ARGS=--test" >> $GITHUB_ENV
+          fi
+
+      - name: Login to GitHub Container Registry
+        if: steps.check.outputs.build_arch == 'true'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build ${{ matrix.addon }} add-on
+        if: steps.check.outputs.build_arch == 'true'
+        uses: home-assistant/builder@master
+        with:
+          args: |
+            ${{ env.BUILD_ARGS }} \
+            --${{ matrix.arch }} \
+            --target /data/${{ matrix.addon }} \
+            --image "${{ steps.check.outputs.image }}" \
+            --docker-hub "ghcr.io/${{ github.repository_owner }}" \
+            --addon

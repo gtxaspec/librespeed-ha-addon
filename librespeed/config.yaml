@@ -6,6 +6,7 @@ url: https://github.com/gtxaspec/librespeed-ha-addon
 arch:
   - aarch64
   - amd64
+image: ghcr.io/gtxaspec/{arch}-addon-librespeed
 startup: services
 boot: auto
 init: false
