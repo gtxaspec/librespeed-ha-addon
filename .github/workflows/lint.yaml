@@ -36,6 +36,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run add-on linter
-        uses: home-assistant/actions/addon-linter@master
+        uses: home-assistant/actions/helpers/linter@master
         with:
           path: "./${{ matrix.path }}"
