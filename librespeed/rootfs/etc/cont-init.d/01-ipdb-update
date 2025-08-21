@@ -1,0 +1,43 @@
+#!/command/with-contenv bashio
+# ==============================================================================
+# Home Assistant Add-on: LibreSpeed
+# Downloads/updates the offline IPInfo database if configured
+# ==============================================================================
+
+UPDATE_IPDB=$(bashio::config 'update_ipdb_on_start')
+IPDB_FILE="/data/country_asn.mmdb"
+
+# Create symlink for the database in the root directory
+if [ -f "${IPDB_FILE}" ]; then
+    ln -sf "${IPDB_FILE}" /country_asn.mmdb
+fi
+
+if [ "${UPDATE_IPDB}" = "true" ]; then
+    bashio::log.info "Updating IPInfo offline database..."
+    
+    # Change to /data directory to save the database persistently
+    cd /data
+    
+    # Run the update command
+    if /usr/local/bin/librespeed-rs --update-ipdb; then
+        bashio::log.info "IPInfo database updated successfully"
+        bashio::log.info "This provides offline ISP detection without needing an API key"
+        
+        # Create symlink in root directory
+        ln -sf "${IPDB_FILE}" /country_asn.mmdb
+    else
+        bashio::log.warning "Failed to update IPInfo database"
+        bashio::log.warning "Will continue without offline ISP detection"
+    fi
+    
+    # Return to original directory
+    cd /
+else
+    # Check if database exists
+    if [ -f "${IPDB_FILE}" ]; then
+        bashio::log.info "Using existing IPInfo offline database"
+    else
+        bashio::log.info "No IPInfo offline database found"
+        bashio::log.info "ISP detection will use online API if configured"
+    fi
+fi

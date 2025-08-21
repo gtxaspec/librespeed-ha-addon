@@ -1,0 +1,48 @@
+configuration:
+  base_url:
+    name: Ścieżka Bazowa URL
+    description: Prefiks ścieżki URL dla punktów końcowych API. Zachowaj 'backend', chyba że musisz to zmienić.
+  update_ipdb_on_start:
+    name: Aktualizuj Bazę Danych IP przy Starcie
+    description: Pobiera/aktualizuje bazę danych IPInfo offline przy starcie dodatku. Umożliwia wykrywanie ISP bez klucza API.
+  ipinfo_api_key:
+    name: Klucz API IPInfo.io
+    description: Opcjonalny klucz API z ipinfo.io dla ulepszonych danych geolokalizacyjnych. Uzyskaj bezpłatny na https://ipinfo.io/signup
+  stats_password:
+    name: Hasło Strony Statystyk
+    description: Hasło do ochrony strony /backend/stats. Bez hasła strona statystyk jest niedostępna.
+  redact_ip_addresses:
+    name: Ukryj Adresy IP
+    description: Ukrywa adresy IP w wynikach testów dla prywatności. IP będą pokazane jako 0.0.0.0
+  result_image_theme:
+    name: Motyw Obrazu Wyników
+    description: Schemat kolorów dla generowanych obrazów wyników (jasny lub ciemny)
+  database_type:
+    name: Typ Bazy Danych
+    description: Backend przechowywania wyników. Użyj 'sqlite' dla trwałego przechowywania, 'memory' dla tymczasowego, lub 'none' aby wyłączyć.
+  database_hostname:
+    name: Nazwa Hosta Bazy Danych
+    description: Nazwa hosta serwera MySQL/PostgreSQL (tylko dla typów mysql/postgres)
+  database_name:
+    name: Nazwa Bazy Danych
+    description: Nazwa bazy danych MySQL/PostgreSQL (tylko dla typów mysql/postgres)
+  database_username:
+    name: Nazwa Użytkownika Bazy Danych
+    description: Nazwa użytkownika MySQL/PostgreSQL (tylko dla typów mysql/postgres)
+  database_password:
+    name: Hasło Bazy Danych
+    description: Hasło MySQL/PostgreSQL (tylko dla typów mysql/postgres)
+  database_file:
+    name: Plik Bazy Danych SQLite
+    description: Ścieżka do pliku bazy danych SQLite (tylko gdy database_type to 'sqlite')
+  enable_tls:
+    name: Włącz HTTPS/TLS
+    description: Włącz obsługę HTTPS. Wymaga ważnych plików certyfikatu i klucza.
+  tls_cert_file:
+    name: Plik Certyfikatu TLS
+    description: Ścieżka do pliku certyfikatu TLS (wymagane gdy TLS jest włączone)
+  tls_key_file:
+    name: Plik Klucza TLS
+    description: Ścieżka do pliku klucza prywatnego TLS (wymagane gdy TLS jest włączone)
+network:
+  8080/tcp: Interfejs Web LibreSpeed (Port 8181)

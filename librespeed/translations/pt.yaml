@@ -1,0 +1,48 @@
+configuration:
+  base_url:
+    name: Caminho Base da URL
+    description: O prefixo do caminho URL para pontos finais da API. Mantenha 'backend' a menos que precise alterá-lo.
+  update_ipdb_on_start:
+    name: Atualizar Base de Dados IP ao Iniciar
+    description: Baixa/atualiza a base de dados IPInfo offline ao iniciar o complemento. Permite detecção de ISP sem chave API.
+  ipinfo_api_key:
+    name: Chave API IPInfo.io
+    description: Chave API opcional do ipinfo.io para dados de geolocalização aprimorados. Obtenha gratuitamente em https://ipinfo.io/signup
+  stats_password:
+    name: Senha da Página de Estatísticas
+    description: Senha para proteger a página /backend/stats. Sem senha, a página de estatísticas é inacessível.
+  redact_ip_addresses:
+    name: Ocultar Endereços IP
+    description: Oculta endereços IP nos resultados dos testes para privacidade. IPs serão mostrados como 0.0.0.0
+  result_image_theme:
+    name: Tema da Imagem de Resultados
+    description: Esquema de cores para imagens de resultados geradas (claro ou escuro)
+  database_type:
+    name: Tipo de Base de Dados
+    description: Backend de armazenamento para resultados. Use 'sqlite' para armazenamento permanente, 'memory' para temporário, ou 'none' para desativar.
+  database_hostname:
+    name: Nome do Host da Base de Dados
+    description: Nome do host do servidor MySQL/PostgreSQL (apenas para tipos mysql/postgres)
+  database_name:
+    name: Nome da Base de Dados
+    description: Nome da base de dados MySQL/PostgreSQL (apenas para tipos mysql/postgres)
+  database_username:
+    name: Nome de Usuário da Base de Dados
+    description: Nome de usuário MySQL/PostgreSQL (apenas para tipos mysql/postgres)
+  database_password:
+    name: Senha da Base de Dados
+    description: Senha MySQL/PostgreSQL (apenas para tipos mysql/postgres)
+  database_file:
+    name: Arquivo de Base de Dados SQLite
+    description: Caminho para o arquivo de base de dados SQLite (apenas quando database_type é 'sqlite')
+  enable_tls:
+    name: Ativar HTTPS/TLS
+    description: Ativa suporte HTTPS. Requer arquivos de certificado e chave válidos.
+  tls_cert_file:
+    name: Arquivo de Certificado TLS
+    description: Caminho para o arquivo de certificado TLS (necessário quando TLS está ativado)
+  tls_key_file:
+    name: Arquivo de Chave TLS
+    description: Caminho para o arquivo de chave privada TLS (necessário quando TLS está ativado)
+network:
+  8080/tcp: Interface Web LibreSpeed (Porta 8181)

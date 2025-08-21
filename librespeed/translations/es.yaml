@@ -1,0 +1,48 @@
+configuration:
+  base_url:
+    name: Ruta Base de URL
+    description: El prefijo de ruta URL para los puntos finales de API. Mantenga 'backend' a menos que necesite cambiarlo.
+  update_ipdb_on_start:
+    name: Actualizar Base de Datos IP al Iniciar
+    description: Descarga/actualiza la base de datos IPInfo sin conexión al iniciar el complemento. Permite detección de ISP sin clave API.
+  ipinfo_api_key:
+    name: Clave API de IPInfo.io
+    description: Clave API opcional de ipinfo.io para datos de geolocalización mejorados. Obtenga una gratis en https://ipinfo.io/signup
+  stats_password:
+    name: Contraseña de Página de Estadísticas
+    description: Contraseña para proteger la página /backend/stats. Sin contraseña, la página de estadísticas es inaccesible.
+  redact_ip_addresses:
+    name: Ocultar Direcciones IP
+    description: Oculta direcciones IP en resultados de pruebas por privacidad. Las IPs se mostrarán como 0.0.0.0
+  result_image_theme:
+    name: Tema de Imagen de Resultados
+    description: Tema de color para imágenes de resultados generadas (claro u oscuro)
+  database_type:
+    name: Tipo de Base de Datos
+    description: Backend de almacenamiento para resultados. Use 'sqlite' para almacenamiento persistente, 'memory' para temporal, o 'none' para desactivar.
+  database_hostname:
+    name: Nombre de Host de Base de Datos
+    description: Nombre de host del servidor MySQL/PostgreSQL (solo para tipos mysql/postgres)
+  database_name:
+    name: Nombre de Base de Datos
+    description: Nombre de base de datos MySQL/PostgreSQL (solo para tipos mysql/postgres)
+  database_username:
+    name: Usuario de Base de Datos
+    description: Nombre de usuario MySQL/PostgreSQL (solo para tipos mysql/postgres)
+  database_password:
+    name: Contraseña de Base de Datos
+    description: Contraseña MySQL/PostgreSQL (solo para tipos mysql/postgres)
+  database_file:
+    name: Archivo de Base de Datos SQLite
+    description: Ruta al archivo de base de datos SQLite (solo cuando database_type es 'sqlite')
+  enable_tls:
+    name: Habilitar HTTPS/TLS
+    description: Habilitar soporte HTTPS. Requiere archivos de certificado y clave válidos.
+  tls_cert_file:
+    name: Archivo de Certificado TLS
+    description: Ruta al archivo de certificado TLS (requerido cuando TLS está habilitado)
+  tls_key_file:
+    name: Archivo de Clave TLS
+    description: Ruta al archivo de clave privada TLS (requerido cuando TLS está habilitado)
+network:
+  8080/tcp: Interfaz Web LibreSpeed (Puerto 8181)

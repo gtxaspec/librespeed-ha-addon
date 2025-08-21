@@ -1,0 +1,86 @@
+#include <tunables/global>
+
+profile librespeed flags=(attach_disconnected,mediate_deleted) {
+  #include <abstractions/base>
+  #include <abstractions/bash>
+
+  # Capabilities
+  capability,
+  file,
+  network tcp,
+  network udp,
+
+  # S6-Overlay
+  /init ix,
+  /command/** ix,
+  /usr/bin/execlineb ix,
+  /usr/bin/with-contenv ix,
+  /usr/bin/bashio ix,
+  /usr/bin/bash ix,
+  /usr/bin/sh ix,
+  /usr/bin/echo ix,
+  /usr/lib/bashio/** ix,
+  /run/s6/** rw,
+  /run/service/** rwk,
+  /package/** ix,
+  /command/** ix,
+
+  # Bashio
+  /etc/bashio/** r,
+  /data/options.json r,
+  /proc/self/fd/* r,
+
+  # LibreSpeed binary
+  /usr/local/bin/librespeed-rs cx,
+
+  # Data access
+  /data/** rw,
+  /ssl/** r,
+  /config/** r,
+
+  # Assets
+  /assets/** r,
+
+  # Temp files
+  /tmp/** rw,
+  /var/tmp/** rw,
+
+  # System access
+  /proc/sys/net/ipv4/ip_local_port_range r,
+  /proc/sys/net/ipv6/** r,
+  /proc/net/** r,
+  /etc/hosts r,
+  /etc/resolv.conf r,
+  /etc/nsswitch.conf r,
+  /etc/passwd r,
+  /etc/group r,
+
+  # Deny potentially dangerous access
+  deny /proc/*/mem rwx,
+  deny /sys/kernel/** rwx,
+  deny /dev/mem rwx,
+
+  profile /usr/local/bin/librespeed-rs flags=(attach_disconnected,mediate_deleted) {
+    #include <abstractions/base>
+
+    # Network access
+    network tcp,
+    network udp,
+    network inet,
+    network inet6,
+
+    # Binary execution
+    /usr/local/bin/librespeed-rs r,
+
+    # Data files
+    /data/** rw,
+    /country_asn.mmdb r,
+    /assets/** r,
+
+    # System files
+    /proc/sys/net/core/somaxconn r,
+    /proc/sys/net/ipv4/tcp_fastopen r,
+    /etc/hosts r,
+    /etc/resolv.conf r,
+  }
+}

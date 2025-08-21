@@ -1,0 +1,48 @@
+configuration:
+  base_url:
+    name: Percorso URL di Base
+    description: Il prefisso del percorso URL per gli endpoint API. Mantieni 'backend' a meno che non sia necessario cambiarlo.
+  update_ipdb_on_start:
+    name: Aggiorna Database IP all'Avvio
+    description: Scarica/aggiorna il database IPInfo offline all'avvio dell'add-on. Abilita rilevamento ISP senza chiave API.
+  ipinfo_api_key:
+    name: Chiave API IPInfo.io
+    description: Chiave API opzionale da ipinfo.io per dati di geolocalizzazione avanzati. Ottieni una gratuita su https://ipinfo.io/signup
+  stats_password:
+    name: Password Pagina Statistiche
+    description: Password per proteggere la pagina /backend/stats. Senza password, la pagina delle statistiche è inaccessibile.
+  redact_ip_addresses:
+    name: Oscura Indirizzi IP
+    description: Nasconde gli indirizzi IP nei risultati dei test per privacy. Gli IP saranno mostrati come 0.0.0.0
+  result_image_theme:
+    name: Tema Immagine Risultati
+    description: Schema colori per le immagini dei risultati generate (chiaro o scuro)
+  database_type:
+    name: Tipo di Database
+    description: Backend di archiviazione per i risultati. Usa 'sqlite' per archiviazione permanente, 'memory' per temporanea, o 'none' per disabilitare.
+  database_hostname:
+    name: Nome Host Database
+    description: Nome host del server MySQL/PostgreSQL (solo per tipi mysql/postgres)
+  database_name:
+    name: Nome Database
+    description: Nome database MySQL/PostgreSQL (solo per tipi mysql/postgres)
+  database_username:
+    name: Nome Utente Database
+    description: Nome utente MySQL/PostgreSQL (solo per tipi mysql/postgres)
+  database_password:
+    name: Password Database
+    description: Password MySQL/PostgreSQL (solo per tipi mysql/postgres)
+  database_file:
+    name: File Database SQLite
+    description: Percorso al file database SQLite (solo quando database_type è 'sqlite')
+  enable_tls:
+    name: Abilita HTTPS/TLS
+    description: Abilita supporto HTTPS. Richiede file certificato e chiave validi.
+  tls_cert_file:
+    name: File Certificato TLS
+    description: Percorso al file certificato TLS (richiesto quando TLS è abilitato)
+  tls_key_file:
+    name: File Chiave TLS
+    description: Percorso al file chiave privata TLS (richiesto quando TLS è abilitato)
+network:
+  8080/tcp: Interfaccia Web LibreSpeed (Porta 8181)

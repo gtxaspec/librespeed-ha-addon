@@ -1,0 +1,48 @@
+configuration:
+  base_url:
+    name: Basis-URL-Pfad
+    description: Der URL-Pfad-Präfix für API-Endpunkte. Behalten Sie 'backend', es sei denn, Sie müssen es ändern.
+  update_ipdb_on_start:
+    name: IP-Datenbank beim Start aktualisieren
+    description: Lädt/aktualisiert die Offline-IPInfo-Datenbank beim Start des Add-ons. Ermöglicht ISP-Erkennung ohne API-Schlüssel.
+  ipinfo_api_key:
+    name: IPInfo.io API-Schlüssel
+    description: Optionaler API-Schlüssel von ipinfo.io für erweiterte Geolokalisierungsdaten. Kostenlos unter https://ipinfo.io/signup
+  stats_password:
+    name: Statistikseiten-Passwort
+    description: Passwort zum Schutz der /backend/stats Seite. Ohne Passwort ist die Statistikseite nicht zugänglich.
+  redact_ip_addresses:
+    name: IP-Adressen schwärzen
+    description: IP-Adressen in Testergebnissen für Datenschutz verbergen. IPs werden als 0.0.0.0 angezeigt.
+  result_image_theme:
+    name: Ergebnisbild-Design
+    description: Farbschema für generierte Ergebnisbilder (hell oder dunkel)
+  database_type:
+    name: Datenbanktyp
+    description: Speicher-Backend für Testergebnisse. 'sqlite' für dauerhafte Speicherung, 'memory' für temporär, oder 'none' zum Deaktivieren.
+  database_hostname:
+    name: Datenbank-Hostname
+    description: MySQL/PostgreSQL Server-Hostname (nur für mysql/postgres Datenbanktypen)
+  database_name:
+    name: Datenbankname
+    description: MySQL/PostgreSQL Datenbankname (nur für mysql/postgres Datenbanktypen)
+  database_username:
+    name: Datenbank-Benutzername
+    description: MySQL/PostgreSQL Benutzername (nur für mysql/postgres Datenbanktypen)
+  database_password:
+    name: Datenbank-Passwort
+    description: MySQL/PostgreSQL Passwort (nur für mysql/postgres Datenbanktypen)
+  database_file:
+    name: SQLite-Datenbankdatei
+    description: Pfad zur SQLite-Datenbankdatei (nur bei database_type 'sqlite')
+  enable_tls:
+    name: HTTPS/TLS aktivieren
+    description: HTTPS-Unterstützung aktivieren. Erfordert gültige Zertifikat- und Schlüsseldateien.
+  tls_cert_file:
+    name: TLS-Zertifikatsdatei
+    description: Pfad zur TLS-Zertifikatsdatei (erforderlich bei aktiviertem TLS)
+  tls_key_file:
+    name: TLS-Schlüsseldatei
+    description: Pfad zur privaten TLS-Schlüsseldatei (erforderlich bei aktiviertem TLS)
+network:
+  8080/tcp: LibreSpeed Web-Oberfläche (Port 8181)

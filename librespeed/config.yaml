@@ -1,0 +1,67 @@
+name: LibreSpeed
+version: "1.0.0"
+slug: librespeed
+description: Self-hosted speed test server powered by LibreSpeed Rust backend
+url: https://github.com/gtxaspec/librespeed-ha-addon
+arch:
+  - aarch64
+  - amd64
+startup: services
+boot: auto
+init: false
+watchdog: http://[HOST]:[PORT:8080]/backend/getIP
+healthcheck: http://[HOST]:[PORT:8080]/backend/getIP
+auto_update: true
+backup_exclude:
+  - "/data/*.mmdb"
+  - "/data/speedtest.db"
+services:
+  - mysql:want
+map:
+  - ssl:ro
+ports:
+  8080/tcp: 8181
+ports_description:
+  8080/tcp: Web interface (not required for ingress)
+webui: http://[HOST]:[PORT:8080]/
+ingress: true
+ingress_port: 8080
+panel_icon: mdi:speedometer
+panel_admin: false
+host_network: false
+hassio_api: false
+homeassistant_api: false
+auth_api: false
+privileged: []
+options:
+  base_url: "backend"
+  update_ipdb_on_start: false
+  ipinfo_api_key: ""
+  stats_password: ""
+  redact_ip_addresses: false
+  result_image_theme: "light"
+  database_type: "sqlite"
+  database_hostname: ""
+  database_name: ""
+  database_username: ""
+  database_password: ""
+  database_file: "/data/speedtest.db"
+  enable_tls: false
+  tls_cert_file: ""
+  tls_key_file: ""
+schema:
+  base_url: str
+  update_ipdb_on_start: bool
+  ipinfo_api_key: str?
+  stats_password: str?
+  redact_ip_addresses: bool
+  result_image_theme: list(light|dark)?
+  database_type: list(none|sqlite|memory|mysql|postgres)?
+  database_hostname: str?
+  database_name: str?
+  database_username: str?
+  database_password: str?
+  database_file: str?
+  enable_tls: bool?
+  tls_cert_file: str?
+  tls_key_file: str?

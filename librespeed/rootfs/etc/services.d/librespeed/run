@@ -1,0 +1,114 @@
+#!/command/with-contenv bashio
+# ==============================================================================
+# Home Assistant Add-on: LibreSpeed
+# Runs the LibreSpeed server
+# ==============================================================================
+
+# Get configuration
+BASE_URL=$(bashio::config 'base_url')
+IPINFO_API_KEY=$(bashio::config 'ipinfo_api_key')
+STATS_PASSWORD=$(bashio::config 'stats_password')
+REDACT_IPS=$(bashio::config 'redact_ip_addresses')
+RESULT_IMAGE_THEME=$(bashio::config 'result_image_theme')
+DATABASE_TYPE=$(bashio::config 'database_type')
+DATABASE_HOSTNAME=$(bashio::config 'database_hostname')
+DATABASE_NAME=$(bashio::config 'database_name')
+DATABASE_USERNAME=$(bashio::config 'database_username')
+DATABASE_PASSWORD=$(bashio::config 'database_password')
+DATABASE_FILE=$(bashio::config 'database_file')
+ENABLE_TLS=$(bashio::config 'enable_tls')
+TLS_CERT_FILE=$(bashio::config 'tls_cert_file')
+TLS_KEY_FILE=$(bashio::config 'tls_key_file')
+
+bashio::log.info "Starting LibreSpeed server..."
+bashio::log.info "Binding to :: (IPv6 with IPv4-mapped support)"
+
+# Build arguments array
+ARGS=(
+    "--bind-address" "::"
+    "--listen-port" "8080"
+    "--assets-path" "/assets"
+)
+
+# Add base_url if not default
+if [ "${BASE_URL}" != "backend" ]; then
+    ARGS+=("--base-url" "${BASE_URL}")
+fi
+
+# Add IPInfo API key if provided
+if bashio::config.has_value 'ipinfo_api_key' && [ -n "${IPINFO_API_KEY}" ]; then
+    ARGS+=("--ipinfo-api-key" "${IPINFO_API_KEY}")
+    bashio::log.info "IPInfo.io API key configured for enhanced geolocation"
+else
+    bashio::log.info "No IPInfo.io API key configured, using basic IP info"
+fi
+
+# Add stats password if provided
+if bashio::config.has_value 'stats_password' && [ -n "${STATS_PASSWORD}" ]; then
+    ARGS+=("--stats-password" "${STATS_PASSWORD}")
+    bashio::log.info "Statistics page password protection enabled"
+fi
+
+# Add IP redaction if enabled
+if [ "${REDACT_IPS}" = "true" ]; then
+    ARGS+=("--redact-ips" "true")
+    bashio::log.info "IP address redaction enabled"
+fi
+
+# Add result image theme if provided
+if bashio::config.has_value 'result_image_theme' && [ -n "${RESULT_IMAGE_THEME}" ]; then
+    ARGS+=("--result-image-theme" "${RESULT_IMAGE_THEME}")
+    bashio::log.info "Result image theme: ${RESULT_IMAGE_THEME}"
+fi
+
+# Configure database
+if [ "${DATABASE_TYPE}" != "none" ] && [ -n "${DATABASE_TYPE}" ]; then
+    ARGS+=("--database-type" "${DATABASE_TYPE}")
+    bashio::log.info "Database type: ${DATABASE_TYPE}"
+    
+    if [ "${DATABASE_TYPE}" = "sqlite" ]; then
+        ARGS+=("--database-file" "${DATABASE_FILE}")
+        bashio::log.info "Database file: ${DATABASE_FILE}"
+    elif [ "${DATABASE_TYPE}" = "mysql" ] || [ "${DATABASE_TYPE}" = "postgres" ]; then
+        # Check for auto-discovered MariaDB service
+        if [ "${DATABASE_TYPE}" = "mysql" ] && [ -n "${MARIADB_HOST}" ]; then
+            ARGS+=("--database-hostname" "${MARIADB_HOST}")
+            bashio::log.info "Database hostname: ${MARIADB_HOST} (auto-discovered)"
+        elif bashio::config.has_value 'database_hostname' && [ -n "${DATABASE_HOSTNAME}" ]; then
+            ARGS+=("--database-hostname" "${DATABASE_HOSTNAME}")
+            bashio::log.info "Database hostname: ${DATABASE_HOSTNAME}"
+        fi
+        if bashio::config.has_value 'database_name' && [ -n "${DATABASE_NAME}" ]; then
+            ARGS+=("--database-name" "${DATABASE_NAME}")
+            bashio::log.info "Database name: ${DATABASE_NAME}"
+        fi
+        if bashio::config.has_value 'database_username' && [ -n "${DATABASE_USERNAME}" ]; then
+            ARGS+=("--database-username" "${DATABASE_USERNAME}")
+            bashio::log.info "Database username: ${DATABASE_USERNAME}"
+        fi
+        if bashio::config.has_value 'database_password' && [ -n "${DATABASE_PASSWORD}" ]; then
+            ARGS+=("--database-password" "${DATABASE_PASSWORD}")
+            bashio::log.info "Database password configured"
+        fi
+    fi
+fi
+
+# Configure TLS if enabled
+if [ "${ENABLE_TLS}" = "true" ]; then
+    ARGS+=("--enable-tls" "true")
+    bashio::log.info "TLS enabled"
+    
+    if bashio::config.has_value 'tls_cert_file' && [ -n "${TLS_CERT_FILE}" ]; then
+        ARGS+=("--tls-cert-file" "${TLS_CERT_FILE}")
+        bashio::log.info "TLS certificate: ${TLS_CERT_FILE}"
+    fi
+    
+    if bashio::config.has_value 'tls_key_file' && [ -n "${TLS_KEY_FILE}" ]; then
+        ARGS+=("--tls-key-file" "${TLS_KEY_FILE}")
+        bashio::log.info "TLS key file: ${TLS_KEY_FILE}"
+    fi
+fi
+
+# Run LibreSpeed from root directory so it can find country_asn.mmdb
+cd /
+exec /usr/local/bin/librespeed-rs "${ARGS[@]}"

@@ -1,0 +1,48 @@
+configuration:
+  base_url:
+    name: Базовый Путь URL
+    description: Префикс пути URL для конечных точек API. Оставьте 'backend', если не требуется изменить.
+  update_ipdb_on_start:
+    name: Обновить Базу Данных IP при Запуске
+    description: Загружает/обновляет офлайн базу данных IPInfo при запуске дополнения. Позволяет определять провайдера без API ключа.
+  ipinfo_api_key:
+    name: API Ключ IPInfo.io
+    description: Необязательный API ключ от ipinfo.io для расширенных данных геолокации. Получите бесплатно на https://ipinfo.io/signup
+  stats_password:
+    name: Пароль Страницы Статистики
+    description: Пароль для защиты страницы /backend/stats. Без пароля страница статистики недоступна.
+  redact_ip_addresses:
+    name: Скрыть IP Адреса
+    description: Скрывает IP адреса в результатах тестов для конфиденциальности. IP будут показаны как 0.0.0.0
+  result_image_theme:
+    name: Тема Изображения Результатов
+    description: Цветовая схема для генерируемых изображений результатов (светлая или тёмная)
+  database_type:
+    name: Тип Базы Данных
+    description: Бэкенд хранения результатов. Используйте 'sqlite' для постоянного хранения, 'memory' для временного, или 'none' для отключения.
+  database_hostname:
+    name: Имя Хоста Базы Данных
+    description: Имя хоста сервера MySQL/PostgreSQL (только для типов mysql/postgres)
+  database_name:
+    name: Имя Базы Данных
+    description: Имя базы данных MySQL/PostgreSQL (только для типов mysql/postgres)
+  database_username:
+    name: Имя Пользователя Базы Данных
+    description: Имя пользователя MySQL/PostgreSQL (только для типов mysql/postgres)
+  database_password:
+    name: Пароль Базы Данных
+    description: Пароль MySQL/PostgreSQL (только для типов mysql/postgres)
+  database_file:
+    name: Файл Базы Данных SQLite
+    description: Путь к файлу базы данных SQLite (только когда database_type равен 'sqlite')
+  enable_tls:
+    name: Включить HTTPS/TLS
+    description: Включить поддержку HTTPS. Требует действительные файлы сертификата и ключа.
+  tls_cert_file:
+    name: Файл Сертификата TLS
+    description: Путь к файлу сертификата TLS (требуется при включенном TLS)
+  tls_key_file:
+    name: Файл Ключа TLS
+    description: Путь к файлу приватного ключа TLS (требуется при включенном TLS)
+network:
+  8080/tcp: Веб-интерфейс LibreSpeed (Порт 8181)

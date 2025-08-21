@@ -1,0 +1,48 @@
+configuration:
+  base_url:
+    name: Chemin URL de Base
+    description: Le préfixe du chemin URL pour les points de terminaison API. Gardez 'backend' sauf si vous devez le changer.
+  update_ipdb_on_start:
+    name: Mettre à Jour la Base de Données IP au Démarrage
+    description: Télécharge/met à jour la base de données IPInfo hors ligne au démarrage. Permet la détection du FAI sans clé API.
+  ipinfo_api_key:
+    name: Clé API IPInfo.io
+    description: Clé API optionnelle d'ipinfo.io pour des données de géolocalisation améliorées. Obtenez-en une gratuite sur https://ipinfo.io/signup
+  stats_password:
+    name: Mot de Passe de la Page de Statistiques
+    description: Mot de passe pour protéger la page /backend/stats. Sans mot de passe, la page de statistiques est inaccessible.
+  redact_ip_addresses:
+    name: Masquer les Adresses IP
+    description: Masque les adresses IP dans les résultats des tests pour la confidentialité. Les IPs seront affichées comme 0.0.0.0
+  result_image_theme:
+    name: Thème de l'Image de Résultat
+    description: Thème de couleur pour les images de résultats générées (clair ou sombre)
+  database_type:
+    name: Type de Base de Données
+    description: Backend de stockage pour les résultats. Utilisez 'sqlite' pour stockage permanent, 'memory' pour temporaire, ou 'none' pour désactiver.
+  database_hostname:
+    name: Nom d'Hôte de la Base de Données
+    description: Nom d'hôte du serveur MySQL/PostgreSQL (uniquement pour types mysql/postgres)
+  database_name:
+    name: Nom de la Base de Données
+    description: Nom de la base de données MySQL/PostgreSQL (uniquement pour types mysql/postgres)
+  database_username:
+    name: Nom d'Utilisateur de la Base de Données
+    description: Nom d'utilisateur MySQL/PostgreSQL (uniquement pour types mysql/postgres)
+  database_password:
+    name: Mot de Passe de la Base de Données
+    description: Mot de passe MySQL/PostgreSQL (uniquement pour types mysql/postgres)
+  database_file:
+    name: Fichier de Base de Données SQLite
+    description: Chemin vers le fichier de base de données SQLite (uniquement quand database_type est 'sqlite')
+  enable_tls:
+    name: Activer HTTPS/TLS
+    description: Active le support HTTPS. Nécessite des fichiers de certificat et de clé valides.
+  tls_cert_file:
+    name: Fichier de Certificat TLS
+    description: Chemin vers le fichier de certificat TLS (requis quand TLS est activé)
+  tls_key_file:
+    name: Fichier de Clé TLS
+    description: Chemin vers le fichier de clé privée TLS (requis quand TLS est activé)
+network:
+  8080/tcp: Interface Web LibreSpeed (Port 8181)

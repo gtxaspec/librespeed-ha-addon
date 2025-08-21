@@ -1,0 +1,18 @@
+#!/usr/bin/with-contenv bashio
+# ==============================================================================
+# Home Assistant Add-on: LibreSpeed
+# Shows a banner on startup and fixes runtime permissions
+# ==============================================================================
+
+# Fix /tmp permissions that get corrupted at runtime
+chown root:root /tmp
+chmod 1777 /tmp
+
+bashio::log.blue \
+    '-----------------------------------------------------------'
+bashio::log.blue ' Add-on: LibreSpeed'
+bashio::log.blue ' Self-hosted speed test server'
+bashio::log.blue '-----------------------------------------------------------'
+bashio::log.blue " Add-on version: $(bashio::addon.version)"
+bashio::log.blue " LibreSpeed version: v1.3.8"
+bashio::log.blue '-----------------------------------------------------------'

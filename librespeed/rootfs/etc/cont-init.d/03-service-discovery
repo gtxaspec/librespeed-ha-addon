@@ -1,0 +1,26 @@
+#!/command/with-contenv bashio
+# ==============================================================================
+# Home Assistant Add-on: LibreSpeed
+# Service discovery for database connections
+# ==============================================================================
+
+DATABASE_TYPE=$(bashio::config 'database_type')
+
+# If user selected mysql but didn't provide hostname, try to discover MariaDB service
+if [ "${DATABASE_TYPE}" = "mysql" ]; then
+    if ! bashio::config.has_value 'database_hostname'; then
+        if bashio::services.available "mysql"; then
+            bashio::log.info "MariaDB service discovered, using auto-configuration"
+            
+            # Get MariaDB connection details from HA services
+            export MARIADB_HOST=$(bashio::services "mysql" "host")
+            export MARIADB_PORT=$(bashio::services "mysql" "port")
+            
+            bashio::log.info "MariaDB host: ${MARIADB_HOST}:${MARIADB_PORT}"
+            bashio::log.info "Configure database name, username, and password in add-on settings"
+        else
+            bashio::log.warning "MySQL selected but no MariaDB service found"
+            bashio::log.warning "Please install MariaDB add-on or provide database hostname"
+        fi
+    fi
+fi

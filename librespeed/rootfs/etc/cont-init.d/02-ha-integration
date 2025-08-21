@@ -1,0 +1,19 @@
+#!/command/with-contenv bashio
+# ==============================================================================
+# Home Assistant Add-on: LibreSpeed
+# Optional Home Assistant integration setup
+# ==============================================================================
+
+ENABLE_HA_INTEGRATION=$(bashio::config 'enable_ha_integration')
+
+if [ "${ENABLE_HA_INTEGRATION}" = "true" ]; then
+    bashio::log.info "Home Assistant integration enabled"
+    bashio::log.info "Speed test results will be available as Home Assistant sensors"
+    
+    # Note: This is a placeholder for future HA integration
+    # Could POST results to HA API after each test completes
+    # Would require homeassistant_api: true in config.yaml
+else
+    bashio::log.info "Home Assistant integration disabled"
+    bashio::log.info "Speed tests will only be stored in local database"
+fi

@@ -1,0 +1,48 @@
+configuration:
+  base_url:
+    name: Basis URL Pad
+    description: Het URL-pad voorvoegsel voor API-eindpunten. Behoud 'backend' tenzij u het moet wijzigen.
+  update_ipdb_on_start:
+    name: IP-Database Bijwerken bij Opstarten
+    description: Download/update de offline IPInfo-database bij het opstarten van de add-on. Maakt ISP-detectie mogelijk zonder API-sleutel.
+  ipinfo_api_key:
+    name: IPInfo.io API-sleutel
+    description: Optionele API-sleutel van ipinfo.io voor verbeterde geolocatiegegevens. Krijg gratis op https://ipinfo.io/signup
+  stats_password:
+    name: Wachtwoord Statistiekenpagina
+    description: Wachtwoord om de /backend/stats pagina te beveiligen. Zonder wachtwoord is de statistiekenpagina niet toegankelijk.
+  redact_ip_addresses:
+    name: IP-adressen Verbergen
+    description: Verberg IP-adressen in testresultaten voor privacy. IP's worden getoond als 0.0.0.0
+  result_image_theme:
+    name: Resultaatafbeelding Thema
+    description: Kleurthema voor gegenereerde resultaatafbeeldingen (licht of donker)
+  database_type:
+    name: Database Type
+    description: Opslagbackend voor testresultaten. Gebruik 'sqlite' voor permanente opslag, 'memory' voor tijdelijk, of 'none' om uit te schakelen.
+  database_hostname:
+    name: Database Hostnaam
+    description: MySQL/PostgreSQL server hostnaam (alleen voor mysql/postgres database types)
+  database_name:
+    name: Database Naam
+    description: MySQL/PostgreSQL database naam (alleen voor mysql/postgres database types)
+  database_username:
+    name: Database Gebruikersnaam
+    description: MySQL/PostgreSQL gebruikersnaam (alleen voor mysql/postgres database types)
+  database_password:
+    name: Database Wachtwoord
+    description: MySQL/PostgreSQL wachtwoord (alleen voor mysql/postgres database types)
+  database_file:
+    name: SQLite Database Bestand
+    description: Pad naar SQLite database bestand (alleen wanneer database_type 'sqlite' is)
+  enable_tls:
+    name: HTTPS/TLS Inschakelen
+    description: HTTPS-ondersteuning inschakelen. Vereist geldige certificaat- en sleutelbestanden.
+  tls_cert_file:
+    name: TLS Certificaatbestand
+    description: Pad naar TLS certificaatbestand (vereist wanneer TLS is ingeschakeld)
+  tls_key_file:
+    name: TLS Sleutelbestand
+    description: Pad naar privé TLS sleutelbestand (vereist wanneer TLS is ingeschakeld)
+network:
+  8080/tcp: LibreSpeed Web Interface (Poort 8181)

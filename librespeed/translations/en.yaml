@@ -1,0 +1,48 @@
+configuration:
+  base_url:
+    name: Base URL Path
+    description: The URL path prefix for API endpoints. Keep as 'backend' unless you have a specific need to change it.
+  update_ipdb_on_start:
+    name: Update IP Database on Startup
+    description: Download/update the offline IPInfo database when the add-on starts. Enables ISP detection without needing an API key.
+  ipinfo_api_key:
+    name: IPInfo.io API Key
+    description: Optional API key from ipinfo.io for enhanced geolocation data. Get a free key at https://ipinfo.io/signup
+  stats_password:
+    name: Statistics Page Password
+    description: Password required to access the /backend/stats page. Without a password, the stats page is inaccessible.
+  redact_ip_addresses:
+    name: Redact IP Addresses
+    description: Hide IP addresses in test results for privacy. IPs will be shown as 0.0.0.0
+  result_image_theme:
+    name: Result Image Theme
+    description: Color theme for generated result images (light or dark)
+  database_type:
+    name: Database Type
+    description: Storage backend for test results. Use 'sqlite' for persistent storage, 'memory' for temporary, or 'none' to disable.
+  database_hostname:
+    name: Database Hostname
+    description: MySQL/PostgreSQL server hostname (only needed for mysql/postgres database types)
+  database_name:
+    name: Database Name
+    description: MySQL/PostgreSQL database name (only needed for mysql/postgres database types)
+  database_username:
+    name: Database Username
+    description: MySQL/PostgreSQL username (only needed for mysql/postgres database types)
+  database_password:
+    name: Database Password
+    description: MySQL/PostgreSQL password (only needed for mysql/postgres database types)
+  database_file:
+    name: SQLite Database File
+    description: Path to SQLite database file (only used when database_type is 'sqlite')
+  enable_tls:
+    name: Enable HTTPS/TLS
+    description: Enable HTTPS support. Requires valid certificate and key files.
+  tls_cert_file:
+    name: TLS Certificate File
+    description: Path to TLS certificate file (required when TLS is enabled)
+  tls_key_file:
+    name: TLS Key File
+    description: Path to TLS private key file (required when TLS is enabled)
+network:
+  8080/tcp: LibreSpeed Web Interface (Port 8181)
