@@ -5,7 +5,7 @@ FROM ${BUILD_FROM}
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Set LibreSpeed version
-ARG LIBRESPEED_VERSION="v1.3.8"
+ARG LIBRESPEED_VERSION="v1.4.0"
 
 # Install dependencies
 RUN \
