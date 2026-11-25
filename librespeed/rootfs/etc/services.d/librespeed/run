@@ -21,11 +21,19 @@ TLS_CERT_FILE=$(bashio::config 'tls_cert_file')
 TLS_KEY_FILE=$(bashio::config 'tls_key_file')
 
 bashio::log.info "Starting LibreSpeed server..."
-bashio::log.info "Binding to :: (IPv6 with IPv4-mapped support)"
+
+# Binding :: fails when IPv6 is disabled in the container network
+if grep -qs . /proc/net/if_inet6; then
+    BIND_ADDRESS="::"
+    bashio::log.info "Binding to :: (IPv6 with IPv4-mapped support)"
+else
+    BIND_ADDRESS="0.0.0.0"
+    bashio::log.info "IPv6 unavailable, binding to 0.0.0.0"
+fi
 
 # Build arguments array
 ARGS=(
-    "--bind-address" "::"
+    "--bind-address" "${BIND_ADDRESS}"
     "--listen-port" "8080"
     "--assets-path" "/assets"
 )
