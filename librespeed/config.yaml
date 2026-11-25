@@ -1,5 +1,5 @@
 name: LibreSpeed
-version: "1.0.0"
+version: "1.0.1"
 slug: librespeed
 description: Self-hosted speed test server powered by LibreSpeed Rust backend
 url: https://github.com/gtxaspec/librespeed-ha-addon

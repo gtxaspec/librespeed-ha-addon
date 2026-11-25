@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.1 - 2026-11-25
+- Fix startup crash under AppArmor (HA OS): the server binary was killed with SIGSEGV before any output (#3)
+- Bind 0.0.0.0 when the container has no IPv6 (#4)
+- LibreSpeed Rust backend v1.4.0
+
 ## 1.0.0 - 2025-08-21
 - Release version 1.0.0
 
